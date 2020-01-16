@@ -12,4 +12,4 @@ ZEROS = pd.DataFrame(np.zeros(10))
 
 # sample functions
 def increment(x):
-    x = x + 1
+    return x + 1

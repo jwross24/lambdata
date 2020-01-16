@@ -14,10 +14,11 @@ class DataFrameUtils:
     TEST_DF = pd.DataFrame([1, 2, 3, 4, 5, 6])
     TEST_DF_NANS = pd.DataFrame([1, np.nan, 3, 4, np.nan, 6])
 
-    def print_nulls(df):
+    def print_nulls(self, df):
         """
         Check a dataframe for nulls, print them in a "pretty" format
         """
+        self.df = df
 
         # Find the number of nulls in each column
         nulls = df.isnull().sum()
@@ -32,10 +33,12 @@ class DataFrameUtils:
 
         return nulls_df
 
-    def add_list_to_df(list_to_add, df):
+    def add_list_to_df(self, list_to_add, df):
         """
         Take a list, turn into a Series, add it to a DataFrame as a new column
         """
+        self.df = df
+        self.list_to_add = list_to_add
 
         df = df.copy()
 
@@ -47,10 +50,12 @@ class DataFrameUtils:
 
         return df
 
-    def plot_confusion_matrix(y_true, y_pred):
+    def plot_confusion_matrix(self, y_true, y_pred):
         """
         Plot a confusion matrix with labels for each row and column
         """
+        self.y_true = y_true
+        self.y_pred = y_pred
 
         # Generate the labels for the data
         labels = unique_labels(y_true)
@@ -65,11 +70,16 @@ class DataFrameUtils:
         table = pd.DataFrame(cm, columns=columns, index=index)
         return sns.heatmap(table, annot=True, fmt='.2f', cmap='magma')
 
-    def train_val_test(df, generate_val=True, test_ratio=0.2, val_ratio=0.2,
-                       random_state=42):
+    def train_val_test(self, df, generate_val=True, test_ratio=0.2,
+                       val_ratio=0.2, random_state=42):
         """
         Generate train/(val)/test splits from a DataFrame
         """
+        self.df = df
+        self.generate_val = generate_val
+        self.test_ratio = test_ratio
+        self.val_ratio = val_ratio
+        self.random_state = random_state
 
         val = None
         train, test = train_test_split(df, test_size=test_ratio,
